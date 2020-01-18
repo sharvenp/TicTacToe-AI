@@ -1,6 +1,6 @@
 
-from view import View
-from model import Model
+from view import TicTacToeView
+from model import TicTacToe
 
 from human_player import HumanPlayer
 from agent_player import AgentPlayer
@@ -8,12 +8,12 @@ from agent_player import AgentPlayer
 if __name__ == '__main__':
 
 
-	model = Model()
+	model = TicTacToe()
 
 	p1 = HumanPlayer(model)
 	p2 = HumanPlayer(model)
 
-	v = View(p1, p2)
+	v = TicTacToeView(p1, p2)
 
 	model.add_observer(v)
 

@@ -4,17 +4,21 @@ from observable import Observable
 class TicTacToe(Observable):
 	
 	def __init__(self):
+		Observable.__init__(self)
 
 		self.board = [0, 0, 0,
 					  0, 0, 0,
 					  0, 0, 0]
     
-    def get_game_state(self):
-    	if 0 in self.board:
-    		return 0
+	
 
-    	return 1
+	def get_game_state(self):
+    	
+		if 0 in self.board:
+			return 0
 
+		return 1
+	
 	def play_move(self, index, value):
 
 		if 0 <= index <= 8:

@@ -3,13 +3,16 @@ import pygame as pg
 
 from observer import Observer
 from settings import Settings
-from model import Model
+from model import TicTacToe
 
 class TicTacToeView(Observer):
 
 	def __init__(self, p1, p2):
 
 		pg.init()
+
+		self.p1 = p1
+		self.p2 = p2
 
 		self.screen = pg.display.set_mode((Settings.WIDTH, Settings.HEIGHT))
 		pg.display.set_caption("Tic Tac Toe")
@@ -32,7 +35,11 @@ class TicTacToeView(Observer):
 			turn_counter = alternator
 			self.game_over = False
 
-			while not game_over:
+			while not self.game_over:
+
+				e = pg.event.poll()
+				if e.type == pg.QUIT: 
+					quit(0)
 
 				if turn_counter % 2 == 0:
 					self.p1.move()
