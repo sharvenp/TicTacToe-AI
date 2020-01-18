@@ -10,8 +10,8 @@ if __name__ == '__main__':
 
 	model = TicTacToe()
 
-	p1 = HumanPlayer(model)
-	p2 = HumanPlayer(model)
+	p1 = HumanPlayer(model, 1)
+	p2 = HumanPlayer(model, 2)
 
 	v = TicTacToeView(p1, p2)
 
