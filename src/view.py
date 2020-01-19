@@ -1,5 +1,6 @@
 
 import pygame as pg
+import time
 
 from observer import Observer
 from settings import Settings
@@ -19,6 +20,8 @@ class TicTacToeView(Observer):
 		pg.display.set_caption("Tic Tac Toe")
 
 	def _draw_grid(self):
+
+		self.screen.fill((0,0,0))
 		
 		pg.draw.rect(self.screen, Settings.LINE_COLOR, (0, 0, Settings.WIDTH, Settings.HEIGHT), Settings.LINE_WIDTH)
 
@@ -59,9 +62,35 @@ class TicTacToeView(Observer):
 		pg.display.update()
 
 	def update(self, o):
+		
 		print(f"Notified by {o}")
-		self.game_over = bool(o.get_game_state)
+		
+		self.turn_counter += 1
+		game_state = o.get_game_state()
 		self._render_screen(o);
+
+		# Reset board
+		if game_state != 0:
+			
+			self.game_over = True
+
+			if game_state == 1:
+				self.p1.add_win_point()
+
+			elif game_state == 2:
+				self.p2.add_win_point()
+
+			else:
+				self.p1.add_draw_point()
+				self.p2.add_draw_point()
+
+			print(f"P1: {self.p1.score}   P2: {self.p2.score}")
+
+			time.sleep(1)
+
+			o.reset_board()
+			self._draw_grid()
+
 
 	def launch(self):
 
@@ -70,8 +99,10 @@ class TicTacToeView(Observer):
 
 		while True:
 
-			turn_counter = alternator
+			self.turn_counter = alternator
 			self.game_over = False
+
+			pg.event.clear()
 
 			while not self.game_over:
 
@@ -79,7 +110,7 @@ class TicTacToeView(Observer):
 				if e.type == pg.QUIT: 
 					quit(0)
 
-				if turn_counter % 2 == 0:
+				if self.turn_counter % 2 == 0:
 					if type(self.p1) == HumanPlayer:
 						self.p1.move(e)
 					else:

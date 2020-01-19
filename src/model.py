@@ -5,19 +5,44 @@ class TicTacToe(Observable):
 	
 	def __init__(self):
 		Observable.__init__(self)
-
+		self.reset_board()
+	
+	def reset_board(self):
 		self.board = [0, 0, 0,
 					  0, 0, 0,
 					  0, 0, 0]
     
-	
 
 	def get_game_state(self):
-    	
+
+		# Check Horizontal Win
+		for i in range(3):
+			index = i * 3
+			if self.board[index] != 0 and \
+			(self.board[index] == self.board[index + 1] == self.board[index + 2]):
+				return self.board[index]
+
+		# Check Vertical Win
+		for i in range(3):
+			if self.board[i] != 0 and \
+			(self.board[i] == self.board[i + 3] == self.board[i + 6]):
+				return self.board[i]
+
+
+		# Check Diagonal Win
+		if self.board[0] != 0 and \
+			(self.board[0] == self.board[4] == self.board[8]):
+				return self.board[0]
+
+		if self.board[2] != 0 and \
+			(self.board[2] == self.board[4] == self.board[6]):
+				return self.board[2]
+
+
 		if 0 in self.board:
 			return 0
 
-		return 1
+		return -1
 	
 	def play_move(self, index, value):
 
