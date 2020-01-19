@@ -1,5 +1,6 @@
 
 from observable import Observable
+from util import Utility
 
 class TicTacToe(Observable):
 	
@@ -73,12 +74,7 @@ class TicTacToe(Observable):
 		s = ""
 		print(border)
 		for i in range(len(self.board)):
-			val = " "
-			
-			if self.board[i] == 1:
-				val = "X"
-			elif self.board[i] == 2:
-				val = "O"
+			val = Utility.to_symbol(self.board[i])
 
 			s += "| " + val + " "
 			

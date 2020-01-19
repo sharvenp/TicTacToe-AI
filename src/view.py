@@ -6,6 +6,7 @@ from observer import Observer
 from settings import Settings
 from model import TicTacToe
 from human_player import HumanPlayer
+from util import Utility
 
 class TicTacToeView(Observer):
 
@@ -16,7 +17,7 @@ class TicTacToeView(Observer):
 		self.p1 = p1
 		self.p2 = p2
 
-		self.screen = pg.display.set_mode((Settings.WIDTH, Settings.HEIGHT))
+		self.screen = pg.display.set_mode((Settings.WIDTH + Settings.SIDE_PANEL_WIDTH, Settings.HEIGHT))
 		pg.display.set_caption("Tic Tac Toe")
 
 	def _draw_grid(self):
@@ -48,12 +49,7 @@ class TicTacToeView(Observer):
 				x = i % 3
 				y = i // 3
 
-				symbol = " "
-
-				if o.board[i] == 1:
-					symbol = "X"
-				elif o.board[i] == 2:
-					symbol = "O"
+				symbol = Utility.to_symbol(o.board[i])
 
 				font_surface = font.render(symbol, True, Settings.FONT_COLOR)
 				font_rect = font_surface.get_rect(center=((x * box_width) + (box_width // 2), (y * box_height) + (box_height // 2)))
@@ -84,7 +80,14 @@ class TicTacToeView(Observer):
 				self.p1.add_draw_point()
 				self.p2.add_draw_point()
 
-			print(f"P1: {self.p1.score}   P2: {self.p2.score}")
+			
+			if game_state != -1:
+				print(f"{Utility.to_symbol(game_state)} Wins!")
+			else:
+				print("Draw!")
+
+
+			print(f"X: {self.p1.score}   O: {self.p2.score}")
 
 			time.sleep(1)
 
@@ -122,9 +125,4 @@ class TicTacToeView(Observer):
 						self.p2.move()
 
 
-			alternator += 1
-			alternator %= 2
-
-			# Update Winner
-
-
+			alternator = (alternator + 1) % 2

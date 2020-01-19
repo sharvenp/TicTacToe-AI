@@ -16,6 +16,9 @@ class HumanPlayer(Player):
 
 			mx, my = pg.mouse.get_pos()
 
+			if not (0 <= mx <= Settings.WIDTH and 0 <= my <= Settings.HEIGHT):
+				return
+				
 			x = (mx*3) // Settings.WIDTH 
 			y = (my*3) // Settings.HEIGHT
 
