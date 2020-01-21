@@ -1,4 +1,6 @@
 
+from settings import Settings
+
 class Utility:
 	@staticmethod
 	def to_symbol(value):
@@ -8,3 +10,8 @@ class Utility:
 			return "O"
 		else:
 			return " "
+
+	@staticmethod
+	def print(msg):
+		if Settings.DEBUG:
+			print(msg)

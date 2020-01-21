@@ -33,11 +33,14 @@ class TicTacToeView(Observer):
 			pg.draw.line(self.screen, Settings.LINE_COLOR, (box_width*i, 0), (box_width*i, Settings.HEIGHT), Settings.LINE_WIDTH)
 			pg.draw.line(self.screen, Settings.LINE_COLOR, (0, box_height*i), (Settings.WIDTH, box_height*i), Settings.LINE_WIDTH)
 
+
+		self._render_side_panel()
+
 		pg.display.update()
 
 	def _render_screen(self, o):
 
-		font = pg.font.SysFont(Settings.FONT[0], Settings.FONT[1])
+		font = pg.font.SysFont(Settings.BOARD_FONT[0], Settings.BOARD_FONT[1])
 
 		box_width = Settings.WIDTH // 3
 		box_height = Settings.HEIGHT // 3
@@ -51,15 +54,31 @@ class TicTacToeView(Observer):
 
 				symbol = Utility.to_symbol(o.board[i])
 
-				font_surface = font.render(symbol, True, Settings.FONT_COLOR)
+				color = Settings.X_COLOR
+
+				if symbol == "O":
+					color = Settings.O_COLOR
+
+				font_surface = font.render(symbol, True, color)
 				font_rect = font_surface.get_rect(center=((x * box_width) + (box_width // 2), (y * box_height) + (box_height // 2)))
 				self.screen.blit(font_surface, font_rect)
 
 		pg.display.update()
 
+	def _render_side_panel(self):
+
+		font = pg.font.SysFont(Settings.PANEL_FONT[0], Settings.PANEL_FONT[1])
+
+		p1_surface = font.render(f"X: {self.p1.score}", True, Settings.X_COLOR)
+		self.screen.blit(p1_surface, (Settings.WIDTH + 30, 50, 100, 100))
+
+		p1_surface = font.render(f"O: {self.p2.score}", True, Settings.O_COLOR)
+		self.screen.blit(p1_surface, (Settings.WIDTH + 30, 50 + Settings.PANEL_FONT[1], 100, 100))
+
+
 	def update(self, o):
 		
-		print(f"Notified by {o}")
+		Utility.print(f"Notified by {o}")
 		
 		self.turn_counter += 1
 		game_state = o.get_game_state()
@@ -81,19 +100,20 @@ class TicTacToeView(Observer):
 				self.p2.add_draw_point()
 
 			
+			
 			if game_state != -1:
-				print(f"{Utility.to_symbol(game_state)} Wins!")
+				Utility.print(f"{Utility.to_symbol(game_state)} Wins!")
 			else:
-				print("Draw!")
+				Utility.print("Draw!")
 
 
-			print(f"X: {self.p1.score}   O: {self.p2.score}")
+			Utility.print(f"X: {self.p1.score}   O: {self.p2.score}")
 
 			time.sleep(1)
 
 			o.reset_board()
 			self._draw_grid()
-
+			self._render_side_panel()
 
 	def launch(self):
 

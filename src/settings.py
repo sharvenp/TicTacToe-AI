@@ -8,5 +8,9 @@ class Settings:
 	LINE_COLOR = (255, 255, 255)
 	LINE_WIDTH = 3
 
-	FONT = ("Consolas", 90)
-	FONT_COLOR = (90, 90, 255)
+	BOARD_FONT = ("Consolas", 90)
+	PANEL_FONT = ("Consolas", 30)
+	X_COLOR = (255, 90, 90)
+	O_COLOR = (90, 90, 255)
+
+	DEBUG = False

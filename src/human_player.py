@@ -3,6 +3,7 @@ import pygame as pg
 
 from player import Player
 from settings import Settings
+from util import Utility
 
 class HumanPlayer(Player):
 
@@ -25,4 +26,4 @@ class HumanPlayer(Player):
 			index = x + 3*y
 
 			response = self.model.play_move(index, self.value)
-			print(response)
+			Utility.print(response)
